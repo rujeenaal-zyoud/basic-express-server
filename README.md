@@ -4,8 +4,6 @@
 **This a practice to express and test and midleware methode and by using API-GET**
 
 
-
-
 -------------------------------------------------
 ##### Author : Rujeena Al-zyoud
 -----------------------------------------------------
