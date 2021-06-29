@@ -1,23 +1,37 @@
+
 'use strict';
-const server=require('../src/server.js');
-const supertest=require('supertest');
-const request=supertest(server.app);
+const validatorMuddleware = require('../src/middleware/validator');
 
-
-describe('basic-express-server', ()=>{
-
-  it('status 404 for bad method ',async()=>{
-    const response =await request.post('/person');
-    expect(response.status).toBe(404);
-  });
-
-  it('status 404 for bad route ',async()=>{
-    const response =await request.post('/foo');
-    expect(response.status).toBe(404);
-  });
-
-  it('status 500',async()=>{
-    const response =await request.get('/person?name=');
-    expect(response.status).toBe(500);
-  });
-})
+describe('validatorMuddleware', () => {
+    // let consoleSpy;
+    // beforeEach(()=>{
+    //     consoleSpy = jest.spyOn(console,'log').mockImplementation();
+    //   })
+    //   afterEach(()=>{
+    //     consoleSpy.mockRestore();
+    //   })
+      it('returning the query name', () => {
+        let req = {
+          query: {
+            name: 'rujeena',
+          },
+        };
+        let res = {};
+        let next = jest.fn();
+        validatorMuddleware(req, res, next);
+        expect(next).toHaveBeenCalled();
+      });
+  
+      it('handling no query', () => {
+        let req = {
+          query: {
+            name: '',
+          },
+        };
+        let res = {};
+        let next = jest.fn();
+        validatorMuddleware(req, res, next);
+        expect(next).toHaveBeenCalledWith('Dont Have name');
+      });
+    
+});
